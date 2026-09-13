@@ -10,6 +10,7 @@ const MX: &str = include_str!("logos/mx.txt");
 const MANJARO: &str = include_str!("logos/manjaro.txt");
 const FEDORA: &str = include_str!("logos/fedora.txt");
 const ARCH: &str = include_str!("logos/arch.txt");
+const NIXOS: &str = include_str!("logos/nixos.txt");
 
 pub struct Logo {
     pub lines: Vec<String>,
@@ -27,26 +28,32 @@ pub fn get_os_logo(os_id: &str) -> Logo {
         "manjaro" => MANJARO,
         "fedora" => FEDORA,
         "arch" => ARCH,
+        "nixos" => NIXOS,
         _ => DEFAULT,
     };
 
-    let lines: Vec<String> = raw_ascii.lines().map(|s| s.to_string()).collect();
+    let raw_lines: Vec<&str> = raw_ascii.lines().collect();
+    let width = raw_lines.iter().map(|l| l.chars().count()).max().unwrap_or(0);
 
-    let width = lines.iter().map(|l| l.chars().count()).max().unwrap_or(0);
-
-    let colored_lines = lines
+    let colored_lines = raw_lines
         .into_iter()
-        .map(|line| match os_id {
-            "windows" => line.bright_blue().bold().to_string(),
-            "ubuntu" => line.bright_red().bold().to_string(),
-            "debian" => line.red().bold().to_string(),
-            "cachyos" => line.cyan().bold().to_string(),
-            "mint" => line.bright_green().bold().to_string(),
-            "mx" => line.bright_black().bold().to_string(),
-            "manjaro" => line.green().bold().to_string(),
-            "fedora" => line.bright_cyan().bold().to_string(),
-            "arch" => line.cyan().bold().to_string(),
-            _ => line.yellow().to_string(),
+        .map(|line| {
+            let len = line.chars().count();
+            let padded_line = format!("{}{}", line, " ".repeat(width.saturating_sub(len)));
+
+            match os_id {
+                "windows" => padded_line.bright_blue().bold().to_string(),
+                "ubuntu" => padded_line.bright_red().bold().to_string(),
+                "debian" => padded_line.red().bold().to_string(),
+                "cachyos" => padded_line.cyan().bold().to_string(),
+                "mint" => padded_line.bright_green().bold().to_string(),
+                "mx" => padded_line.bright_black().bold().to_string(),
+                "manjaro" => padded_line.green().bold().to_string(),
+                "fedora" => padded_line.bright_cyan().bold().to_string(),
+                "arch" => padded_line.cyan().bold().to_string(),
+                "nixos" => padded_line.bright_cyan().bold().to_string(),
+                _ => padded_line.yellow().to_string(),
+            }
         })
         .collect();
 
