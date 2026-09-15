@@ -39,7 +39,17 @@ fn render_system_details(info: &SystemInfo) {
     }
 
     info_lines.push(format!("{}: {}", "CPU".bright_yellow().bold(), info.cpu_name));
+    info_lines.push(format!("{}: {}", "GPU".bright_yellow().bold(), info.gpu_name));
+
+    if !(info.gpu_usage.is_none()) {
+        info_lines.push(format!("{}: {:.2?}% / {:.2?}%", "CPU/GPU Usage".bright_yellow().bold(), info.cpu_usage, info.gpu_usage));
+    } else {
+        info_lines.push(format!("{}: {:.2?}%", "CPU Usage".bright_yellow().bold(), info.cpu_usage));
+    }
+
     info_lines.push(format!("{}: {} MiB / {} MiB", "Memory".bright_yellow().bold(), info.used_mem_mb, info.total_mem_mb));
+    info_lines.push(format!("{}: {} Gb / {} Gb", "Disk:".bright_yellow().bold(), info.disk_used_gb, info.disk_total_gb));
+    info_lines.push(format!("{}: {}", "Local IP".bright_yellow().bold(), info.net_ip));
     info_lines.push(format!(
             "{}",
             "███".black().to_string()
@@ -62,10 +72,6 @@ fn render_system_details(info: &SystemInfo) {
                 + &"███".bright_cyan().to_string()
                 + &"███".bright_white().to_string()
         ));
-
-    info_lines.push(format!(
-        "{} {} {:?} {} {} {}", info.cpu_usage, info.gpu_name, info.gpu_usage, info.net_ip, info.disk_used_gb, info.disk_total_gb
-    ));
 
     let max_rows = logo.lines.len().max(info_lines.len());
     let empty_logo_padding = " ".repeat(logo.width);
