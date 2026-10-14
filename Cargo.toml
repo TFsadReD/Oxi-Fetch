@@ -2,6 +2,15 @@
 name = "oxi-fetch"
 version = "1.7.0"
 edition = "2024"
+authors = ["TFsadReD"]
+license = "Apache-2.0"
+
+description = "A fast cross-platform system information tool written in Rust, displaying OS logos and hardware stats"
+readme = "README.md"
+
+repository = "https://github.com/TFsadReD/Oxi-Fetch"
+keywords = ["cli", "system-info", "neofetch", "fastfetch", "cli", "hardware"]
+categories = ["command-line-utilities", "os"]
 
 [dependencies]
 colored = "3.1.1"
