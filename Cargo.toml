@@ -9,7 +9,7 @@ description = "A fast cross-platform system information tool written in Rust, di
 readme = "README.md"
 
 repository = "https://github.com/TFsadReD/Oxi-Fetch"
-keywords = ["cli", "system-info", "neofetch", "fastfetch", "cli", "hardware"]
+keywords = ["system-info", "neofetch", "fastfetch", "cli", "hardware"]
 categories = ["command-line-utilities", "os"]
 
 [dependencies]
